@@ -1,5 +1,5 @@
 
 exports.index = function(req, res){
-    var params = {'title':'coucou'}
-    res.json(params);
+    var message = {'message':'The api is at http://localhost:3000/api'}
+    res.json(message);
 };

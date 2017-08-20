@@ -56,3 +56,5 @@ typings/
 
 # dotenv environment variables file
 .env
+
+back-end/config.js

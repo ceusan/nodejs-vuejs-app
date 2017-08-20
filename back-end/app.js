@@ -5,21 +5,40 @@ var express     = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser  = require('body-parser'),
     mongoose    = require('mongoose'),
-    db          = require('./app/models/db');
-
+    db          = require('./app/models/db')
+    jwt         = require('jsonwebtoken'),
+    config      = require('./config'),
+    colors      = require('colors');
+    
 // ROUTE REGISTERING
 var index = require('./routes/index');
 
 // APP INIT
 var app = express();
+app.set('view engine', 'ejs');
+// CORS MIDDLEWARE
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
 
+app.use(allowCrossDomain);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// MODELS 
+var User = require('./app/models/users');
+
+// ROUTES REGISTERING
+var index = require('./routes/index');
+var user = require('./routes/user');
 
 // ROUTES USED
+app.use('/api/user', user);
 app.use('/', index);
 
 // CATCH ERROR 
