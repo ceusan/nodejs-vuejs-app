@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Signup from '../components/auth/Signup.vue'
 import Login from '../components/auth/Login.vue'
-import auth from '../auth'
+import auth from '../auth/index'
 
 Vue.use(Router)
 
