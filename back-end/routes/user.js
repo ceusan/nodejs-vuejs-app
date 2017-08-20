@@ -4,8 +4,8 @@ var userController = require('../app/controllers/userController');
 var app = express();
 var config = require('../config');
 
-router.route('/authenticate')
-    .post(userController.authenticate);
+router.route('/login')
+    .post(userController.login);
 
 router.route('/signup')
     .post(userController.signUp)
@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
   } else {
     return res.status(403).send({ 
         success: false, 
-        message: 'No token provided.' 
+        message: 'Sorry. You have no right to be there.' 
     });
   }
 });

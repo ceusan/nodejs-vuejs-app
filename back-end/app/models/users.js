@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
         email   : String,
-        nickname: String,
+        username: String,
         password: String,
         admin   : Boolean
 });
@@ -14,7 +14,7 @@ userSchema.methods.generateHash = function(password) {
 };
 
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

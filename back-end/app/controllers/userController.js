@@ -6,7 +6,7 @@ var config = require('../../config');
 exports.find = (req, res) => {
     User.find({},(err, users) => {
         if(err) res.status(500).json({'error': err});
-        res.json(users);
+        return res.json(users);
     });
 };
 
@@ -14,43 +14,44 @@ exports.find = (req, res) => {
 exports.findOne = (req, res) => {
     User.findOne({'_id': req.body.id},(err, user) => {
         if(err) res.status(500).json({'error': err});
-        res.json(user);
+        return res.json(user);
     });
 };
 
+// USER LOCAL REGISTRATION 
 exports.signUp = (req, res) => {
     User.findOne({'email': req.body.email},(err, user) => {
         if(err) throw err;
         if(user){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-            res.json({
+            return res.json({
                 'success': false,
                 'message': 'This email is already taken by another user.'
             });
         }else{
             var newUser = new User();
             newUser.email = req.body.email;
-            newUser.nickname = req.body.nickname;
+            newUser.username = req.body.username;
             newUser.password = newUser.generateHash(req.body.password);
             newUser.admin = 0;
 
             newUser.save((err, user) =>{
                 if(err) throw err;
-                res.json(user);
+                return res.json(user);
             });
         }
     });
 }
 
-// AUTHENTICATION 
-exports.authenticate = (req, res) => {
+// USER LOGIN 
+exports.login = (req, res) => {
     User.findOne({'email': req.body.email},(err, user) => {
         if(err) throw err;
         if(!user){
             res.json({
                 'success': false,
-                'message': 'Authentication failed. User not found :('
+                'message': 'Authentication failed. User not found.'
             });
-        }else if(user.password != req.body.password){
+        }else if(!user.validPassword(req.body.password)){
             res.json({
                 'success': false,
                 'message': 'Authentication failed. Wrong password :('
@@ -59,12 +60,36 @@ exports.authenticate = (req, res) => {
             var token = jwt.sign(user, config.token.secret,{
                 expiresIn: 1440
             });
-
-            res.json({
+            
+            return res.json({
                 'success': true,
-                'message': 'Token is yours',
-                'token': token
+                'message': 'Welcome home.',
+                'token': token,
+                'user': user.username
             });
         }
     });
 }
+
+
+
+/* 
+
+exports.forgotPassword = function (req, res){
+ 	var random = Common.encrypt(randomstring.generate({length: 5, charset: 'alphabetic'}));
+    User.findUserUpdate({username: req.body.username}, {password: random}, function(err, user) {
+        if (!err) {
+            if (user === null){
+                return res.send(Boom.forbidden("invalid username"));
+            }
+            else{
+                Common.sentMailForgotPassword(user);
+                return res.send("password is send to registered email id");
+            }
+        } else {       
+            return res.send(Boom.badImplementation(err));
+         }
+    })
+}
+
+*/
