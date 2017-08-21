@@ -23,7 +23,14 @@ export default {
   login(context, creds, redirect){
     context.$http.post(LOGIN_URL,{'email': creds.email, 'password': creds.password})
       .then(response => {
-        console.log(response);
+        if(response.data.success == false){
+          context.$router.push('/login');
+        }else{
+          localStorage.setItem('token', response.data.token);
+          this.user.authenticated = true;
+          context.$router.push(redirect);
+        }
+        
       })
       .catch((error) => {
         console.log(error);
