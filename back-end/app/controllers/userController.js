@@ -71,8 +71,6 @@ exports.login = (req, res) => {
     });
 }
 
-
-
 /* 
 
 exports.forgotPassword = function (req, res){

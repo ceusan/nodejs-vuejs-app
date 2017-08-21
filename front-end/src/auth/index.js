@@ -21,9 +21,15 @@ export default {
   // },
 
   login(context, creds, redirect){
-    // Allow the use of application/x-www-form-urlencoded format
-    context.$http.post('http://localhost:3000/api/user/login', {'email': creds.email, 'password': creds.password},{'headers': {'Content-Type':'application/x-www-form-urlencoded'}});
+    context.$http.post(LOGIN_URL,{'email': creds.email, 'password': creds.password})
+      .then(response => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   },
+
   signup(context, creds, redirect) {
     context.$http.post(SIGNUP_URL, creds, (data) => {
       localStorage.setItem('token', data.id_token)

@@ -8,7 +8,8 @@ var express     = require('express'),
     db          = require('./app/models/db')
     jwt         = require('jsonwebtoken'),
     config      = require('./config'),
-    colors      = require('colors');
+    colors      = require('colors'),
+    cors        = require('cors');
     
 // ROUTE REGISTERING
 var index = require('./routes/index');
@@ -16,18 +17,11 @@ var index = require('./routes/index');
 // APP INIT
 var app = express();
 app.set('view engine', 'ejs');
-// CORS MIDDLEWARE
-var allowCrossDomain = function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Accept, Accept-Language, Content-Type');
-    next();
-}
 
-app.use(allowCrossDomain);
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.use(cookieParser());
 
 // MODELS 
