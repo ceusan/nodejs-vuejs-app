@@ -1,11 +1,23 @@
 <template>
-  <div class="col-sm-4 col-sm-offset-4">
-    <h2>Log In</h2>
-    <form @submit.prevent="submit()">
-      <input type="email" name="email" placeholder="Enter email address" v-model="credentials.email" required/>
-      <input type="password" name="password" placeholder="Enter password" v-model="credentials.password" required/>
-      <input type="submit" value="Login" />
-    </form>
+  <div>
+      <div class="container login">
+          <div class="box">
+              <div class="content">
+                  <h1> Sign In </h1>
+                  <form @submit.prevent="submit()">
+                      <input type="email" name="email" placeholder="Enter email address" v-model="credentials.email" required/>
+                      <input type="password" name="password" placeholder="Enter password" v-model="credentials.password" required />
+                      <input type="submit" value="Sign in" class="btn waves-effect waves-light" />
+                  </form>
+              </div>
+              <div class="footer">
+                  <div class="progress">
+                      <div class="indeterminate"></div>
+                  </div>
+                  <div class="footer-bar"></div>
+              </div>
+          </div>
+      </div>
   </div>
 </template>
 

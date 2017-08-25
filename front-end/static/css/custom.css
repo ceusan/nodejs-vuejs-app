@@ -1,0 +1,12 @@
+
+/* LOGIN BOX */ 
+
+.login{
+    width: 40% !important;
+    background: #fcfcfc;
+    text-align: center;
+}
+
+.content{
+    padding: 10%;
+}
