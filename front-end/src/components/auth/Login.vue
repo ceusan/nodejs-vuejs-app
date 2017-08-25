@@ -11,7 +11,7 @@
                   </form>
               </div>
               <div class="footer">
-                  <div class="progress">
+                  <div v-if="loading == true" class="progress">
                       <div class="indeterminate"></div>
                   </div>
                   <div class="footer-bar"></div>
@@ -32,17 +32,19 @@ export default {
         email: '',
         password: ''
       },
-      error: ''
+      error: '',
+      loading: ''
     }
   },
-
   methods: {
     submit() {
+      this.loading = true;
       var credentials = {
         email: this.credentials.email,
         password: this.credentials.password
       }
       auth.login(this, credentials, '/')
+      this.loading = false;
     }
   }
   

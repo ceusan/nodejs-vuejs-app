@@ -25,12 +25,13 @@ export default {
       .then(response => {
         if(response.data.success == false){
           context.$router.push('/login');
+          Materialize.toast(response.data.message,'2000');
         }else{
           localStorage.setItem('token', response.data.token);
           this.user.authenticated = true;
           context.$router.push(redirect);
+          Materialize.toast(response.data.message,'2000');
         }
-        
       })
       .catch((error) => {
         console.log(error);
@@ -52,9 +53,11 @@ export default {
     })
   },
 
-  logout() {
+  logout(context,redirect) {
     localStorage.removeItem('token')
     this.user.authenticated = false
+    context.$router.push(redirect);
+    Materialize.toast('See you soon !','2000');
   },
 
   checkAuth() {
